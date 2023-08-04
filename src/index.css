@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.borderx:focus {
+    border: solid blue 2px !important;
+}
+
