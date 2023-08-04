@@ -144,4 +144,4 @@ const renderElement = async (): Promise<void> => {
   //console.log("check", width.value, height.value, text.value);
 };
 </script>
-<style scoped></style>
+
