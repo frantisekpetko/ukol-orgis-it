@@ -6,5 +6,3 @@
     Vykreslení DIV elementu
   </button>
 </template>
-
-

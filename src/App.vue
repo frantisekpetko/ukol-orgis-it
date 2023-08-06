@@ -1,29 +1,34 @@
 <template>
-  <div>
-    <form
-      @submit.prevent="renderElement"
-      class="flex flex-col justify-center items-center mx-auto my-0 w-72 px-2"
-    >
-      <h1 className="text-3xl font-bold text-blue-600">Úkol pro Orgis IT</h1>
+  <div class="overflow-x-hidden mt-5">
+    <Form @renderElement="renderElement">
+      <Title :title="titleString" />
       <TextField
-        sizeTitle="Height"
+        sizeTitle="Výška"
         sizeName="height"
         :size="height"
         @updateSize="updateHeight"
         :required="true"
         type="number"
       >
-        <Select @updateUnits="updateHeightUnits" :units="heightUnits" :id="heightUnits"/>
+        <Select
+          @updateUnits="updateHeightUnits"
+          :units="heightUnits"
+          :id="heightUnits"
+        />
       </TextField>
       <TextField
-        sizeTitle="Width"
+        sizeTitle="Šířka"
         sizeName="width"
         :size="width"
         @updateSize="updateWidth"
         :required="true"
         type="number"
       >
-        <Select @updateUnits="updateWidthUnits" :units="widthUnits" :id="widthUnits" />
+        <Select
+          @updateUnits="updateWidthUnits"
+          :units="widthUnits"
+          :id="widthUnits"
+        />
       </TextField>
       <ColorPicker @updateColor="updateColor" :color="color" />
       <TextField
@@ -35,7 +40,7 @@
         type="text"
       />
       <Button />
-    </form>
+    </Form>
     <DivElement
       :divProperties="divProperties"
       :text="text"
@@ -46,81 +51,79 @@
       :widthUnits="widthUnits"
       :heightUnits="heightUnits"
     />
-
   </div>
 </template>
 <script setup lang="ts">
-import { ref, watch, reactive } from "vue";
-import type { Ref } from "vue";
+import { ref, reactive } from 'vue'
+import type { Ref } from 'vue'
 
-import Button from "@/components/Button.vue";
-import DivElement from "@/components/DivElement.vue";
-import ColorPicker from "@/components/ColorPicker.vue";
-import Select from "@/components/Select.vue";
-import TextField from "@/components/TextField.vue";
+import axios from 'axios'
 
-import "@/index.css";
+import Button from '@/components/Button.vue'
+import DivElement from '@/components/DivElement.vue'
+import ColorPicker from '@/components/ColorPicker.vue'
+import Select from '@/components/Select.vue'
+import TextField from '@/components/TextField.vue'
+import Title from '@/components/Title.vue'
+import Form from '@/components/Form.vue'
 
-let color: Ref<string> = ref("#000000");
-let isDivElementReady: Ref<boolean> = ref(false);
-let width: Ref<string> = ref('');
-let height: Ref<string> = ref('');
-let text: Ref<string> = ref('');
-let widthUnits: Ref<string> = ref("px");
-let heightUnits: Ref<string> = ref("px");
+import '@/index.css'
+
+let color: Ref<string> = ref('#000000')
+let isDivElementReady: Ref<boolean> = ref(false)
+let width: Ref<string> = ref('')
+let height: Ref<string> = ref('')
+let text: Ref<string> = ref('')
+let widthUnits: Ref<string> = ref('px')
+let heightUnits: Ref<string> = ref('px')
+
+const titleString = 'Úkol pro Orgis IT'
 
 let divProperties: {
-  color: string,
-  width: string,
-  height: string,
-  text: string,
+  color: string
+  width: string
+  height: string
+  text: string
 } = reactive({
   color: '',
   width: '',
   height: '',
   text: '',
-});
-
-watch(width, (oldWU: any) => {
-  console.log(`width is ${oldWU.value} ${widthUnits.value}`);
-});
-
-watch(width, (oldHU: any) => {
-  console.log(`height is ${oldHU.value} ${heightUnits.value}`);
-});
+})
 
 const updateColor = (value: string): void => {
-  color.value = value;
-};
+  color.value = value
+}
 
 const updateWidthUnits = (value: string): void => {
-  widthUnits.value = value;
-};
+  widthUnits.value = value
+}
 
 const updateHeightUnits = (value: string): void => {
-  heightUnits.value = value;
-};
+  heightUnits.value = value
+}
 
 const updateHeight = (value: string): void => {
-  height.value = value;
-};
+  height.value = value
+}
 
 const updateWidth = (value: string): void => {
-  width.value = value;
-};
+  width.value = value
+}
 
 const updateText = (value: string): void => {
-  text.value = value;
-};
+  text.value = value
+}
 
 const renderElement = async (): Promise<void> => {
-  console.log({
+  console.log('input data', {
     color: color.value,
     width: width.value,
     height: height.value,
     text: text.value,
-  });
-  isDivElementReady.value = false;
+  })
+  isDivElementReady.value = false
+  /*
   const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
     method: "POST",
     headers: {
@@ -136,12 +139,25 @@ const renderElement = async (): Promise<void> => {
   });
 
   const data = { ...(await res.json()) };
-
-  console.log("render", data);
-  divProperties =  {...data};
-  console.log({divProperties})
-  isDivElementReady.value = true;
-  //console.log("check", width.value, height.value, text.value);
-};
+  */
+  const { data } = await axios.post(
+    'https://jsonplaceholder.typicode.com/posts',
+    {
+      color: color.value,
+      width: width.value,
+      height: height.value,
+      text: text.value,
+    },
+    {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }
+  )
+  console.log('output data', data)
+  divProperties = { ...data }
+  //console.log({ divProperties })
+  isDivElementReady.value = true
+}
 </script>
-

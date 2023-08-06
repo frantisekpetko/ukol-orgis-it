@@ -11,13 +11,11 @@
 </template>
 <script setup lang="ts">
 interface Props {
-    units: string
-    id: string
+  units: string
+  id: string
 }
 
-const x = "width"
-
-defineProps<Props>();
+defineProps<Props>()
 
 const emits = defineEmits<{
   (eventName: 'updateUnits', value: string): void

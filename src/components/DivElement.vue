@@ -6,7 +6,7 @@
         background: props.divProperties.color,
         width: `${props.divProperties.width}${widthUnits}`,
         height: `${props.divProperties.height}${heightUnits}`,
-        color: 'white'
+        color: 'white',
       }"
       ref="divStyles"
     >
@@ -19,32 +19,22 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
-import {watch} from 'vue';
-
 interface Props {
   divProperties: {
-    color: string;
-    width: string;
-    height: string;
-    text: string;
-  };
-  color: string;
-  width: string;
-  height: string;
-  isDivElementReady: boolean;
-  text: string;
-  widthUnits: string;
-  heightUnits: string;
+    color: string
+    width: string
+    height: string
+    text: string
+  }
+  color: string
+  width: string
+  height: string
+  isDivElementReady: boolean
+  text: string
+  widthUnits: string
+  heightUnits: string
 }
 
-const props = defineProps<Props>();
-
-watch(props.divProperties, (old) => {
-  console.log('old', {old})
-})
-
-
-
+const props = defineProps<Props>()
 </script>
