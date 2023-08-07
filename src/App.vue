@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-x-hidden mt-5">
+  <div class="mt-5">
     <AppForm @renderElement="renderElement">
       <AppTitle :title="titleString" />
       <TextField
