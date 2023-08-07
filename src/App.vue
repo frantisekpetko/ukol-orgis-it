@@ -1,46 +1,49 @@
 <template>
   <div class="overflow-x-hidden mt-5">
-    <Form @renderElement="renderElement">
-      <Title :title="titleString" />
+    <AppForm @renderElement="renderElement">
+      <AppTitle :title="titleString" />
       <TextField
-        sizeTitle="Výška"
-        sizeName="height"
+        type="number"
+        :required="true"
+        size-title="Výška"
+        size-name="height"
         :size="height"
-        @updateSize="updateHeight"
-        :required="true"
-        type="number"
+        @update-size="updateHeight"
       >
-        <Select
-          @updateUnits="updateHeightUnits"
-          :units="heightUnits"
+        <UnitsSelect
           :id="heightUnits"
+          :units="heightUnits"
+          @update-units="updateHeightUnits"
         />
       </TextField>
       <TextField
-        sizeTitle="Šířka"
-        sizeName="width"
-        :size="width"
-        @updateSize="updateWidth"
-        :required="true"
         type="number"
+        :required="true"
+        size-title="Šířka"
+        size-name="width"
+        :size="width"
+        @update-size="updateWidth"
       >
-        <Select
-          @updateUnits="updateWidthUnits"
-          :units="widthUnits"
+        <UnitsSelect
           :id="widthUnits"
+          :units="widthUnits"
+          @update-units="updateWidthUnits"
         />
       </TextField>
-      <ColorPicker @updateColor="updateColor" :color="color" />
-      <TextField
-        sizeTitle="Textový popisek"
-        sizeName="text"
-        :size="text"
-        @updateSize="updateText"
-        :required="false"
-        type="text"
+      <ColorPicker 
+        :color="color"
+        @update-color="updateColor"  
       />
-      <Button />
-    </Form>
+      <TextField
+        type="text"
+        :required="false"
+        size-title="Textový popisek"
+        size-name="text"
+        :size="text"
+        @update-size="updateText"
+      />
+      <FormButton />
+    </AppForm>
     <DivElement
       :divProperties="divProperties"
       :text="text"
@@ -59,13 +62,13 @@ import type { Ref } from 'vue'
 
 import axios from 'axios'
 
-import Button from '@/components/Button.vue'
+import FormButton from '@/components/FormButton.vue'
 import DivElement from '@/components/DivElement.vue'
 import ColorPicker from '@/components/ColorPicker.vue'
-import Select from '@/components/Select.vue'
+import UnitsSelect from '@/components/UnitsSelect.vue'
 import TextField from '@/components/TextField.vue'
-import Title from '@/components/Title.vue'
-import Form from '@/components/Form.vue'
+import AppTitle from '@/components/AppTitle.vue'
+import AppForm from '@/components/AppForm.vue'
 
 import '@/index.css'
 
@@ -123,23 +126,7 @@ const renderElement = async (): Promise<void> => {
     text: text.value,
   })
   isDivElementReady.value = false
-  /*
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      color: color.value,
-      width: width.value,
-      height: height.value,
-      text: text.value,
-    }),
-  });
 
-  const data = { ...(await res.json()) };
-  */
   const { data } = await axios.post(
     'https://jsonplaceholder.typicode.com/posts',
     {

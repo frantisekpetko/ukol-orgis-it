@@ -8,7 +8,6 @@
         height: `${props.divProperties.height}${heightUnits}`,
         color: 'white',
       }"
-      ref="divStyles"
     >
       <div
         class="flex flex-col justify-center items-center align h-full mix-blend-difference"

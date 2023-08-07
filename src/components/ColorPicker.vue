@@ -6,10 +6,10 @@
       >Výběr barvy:</label
     >
     <input
+      id="color"
       class="mx-1"
       type="color"
-      id="color"
-      @change="(event) => emits('updateColor', (event.target as any)?.value)"
+      @change="(event) => emits('update-color', (event.target as any)?.value)"
     />
   </div>
 </template>
@@ -20,6 +20,6 @@ interface Props {
 defineProps<Props>()
 
 const emits = defineEmits<{
-  (eventName: 'updateColor', value: string): void
+  (eventName: 'update-color', value: string): void
 }>()
 </script>
